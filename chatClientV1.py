@@ -29,16 +29,21 @@ print("Type 'menu' to print this menu again")
 print("")
 
 while (loginFlag == 0):
-    message = input(">> ")
+    message = input(">>")
     sock.send(message.encode())
     message = sock.recv(1024).decode()
-    if "joins" in message:
-        newUsername = message.split(" ")[1]
-        loginFlag =1
+#    if "Server: " in message:
+#        if " joins" in message:
+#            newUsername = message.split(" ")[1]
+#            loginFlag =1
     print(message)
 
-while(loginFlag == 1):
-    message = input(newUsername+">> ")
-    sock.send(message.encode())
-    message = sock.recv(1024).decode()
-    print(message)
+#while(loginFlag == 1):
+#    message = input(newUsername+">>")
+#    sock.send(message.encode())
+#    message = sock.recv(1024).decode()
+#    if "Server: " in message:
+#        if " joins" in message:
+#            print(message)
+#            sock.close()
+#    print(message)
