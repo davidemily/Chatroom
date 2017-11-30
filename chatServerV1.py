@@ -2,12 +2,19 @@ import socket
 import sys
 import time
 
+#######################################################
+###    Creating a socket using Python Socket & Sys  ###
+#######################################################
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 host = socket.gethostname()
 port = 10528
 loginFlag = 0
 sock.bind((host,port))
-sock.listen(3)
+sock.listen(3) # set for 3 connections but it only handles one
+
+#####################################################
+#      Formatting for when the server starts up     #
+#####################################################
 print("")
 print("")
 print("###############################################################")
@@ -17,38 +24,60 @@ print("")
 print("")
 print ("Waiting for connection...")
 
-conn, addr = sock.accept()
+conn, addr = sock.accept() #accepts connects from anyone
 
+################################################
+##        Formatting for a user joining       ##
+################################################
 print("")
 print("Client " + str(conn) + "has connected!")
 print("")
 
+
+############################################
+##  Handles all of the traffic from user  ##
+###   in a while loop to make it easy    ###
+############################################
 while True:
     data = conn.recv(1024).decode()
+    testWord = data.split(" ")[0]
 
-    if(data.split(" ")[0] == "login"):
-        newUsername = data.split(" ")[1]
-        newPassword = data.split(" ")[2]
-        data = "Login failed. Please check username and password."
-        with open("login.txt", "r") as f:
-            for line in f:
-                if newUsername in line:
-                    if newPassword in line:
-                        print(newUsername + " login")
-                        data = "Server: " + newUsername + " joins"
-                        loginFlag = 1
-        f.close()
+    ################################
+    ##        Login Function      ##
+    ################################
+    if(testWord == "login"):
+        if(loginFlag !=0):
+            data = "Server: " + newUsername + " is already logged in!"
+        else:
+            newUsername = data.split(" ")[1]
+            print("Client " + str(conn) + "has connected!")
+            newPassword = data.split(" ")[2]
+            data = "Login failed. Please check username and password."
+            with open("login.txt", "r") as f:
+                for line in f:
+                    if newUsername in line:
+                        if newPassword in line:
+                            print(newUsername + " login")
+                            data = "Server: " + newUsername + " joins"
+                            loginFlag = 1
+            f.close()
         conn.send(data.encode())
 
-    if(data.split(" ")[0] == "send"):
+    ################################
+    ##        Send  Function      ##
+    ################################
+    elif(testWord == "send"):
         if(loginFlag == 0):
             data = "Server: Denied. Please Login First"
         else:
             data = newUsername + ": " + data[5:]
-            print (newUsername + ": " + data[5:])
+            print (newUsername + " " + data[5:])
         conn.send(data.encode())
 
-    if(data.split(" ")[0] == "newuser"):
+    ################################
+    ##       New User Function    ##
+    ################################
+    elif(testWord == "newuser"):
         createUsername = data.split(" ")[1]
         createPassword = data.split(" ")[2]
         f = open('login.txt', 'a')
@@ -58,17 +87,35 @@ while True:
         data = "New user " + createUsername + " created"
         conn.send(data.encode())
 
-    if(data.split(" ")[0] == "logout"):
+    ################################
+    ##       Logout Function      ##
+    ################################
+    elif(testWord == "logout"):
         print(newUsername + " logout")
         data = "Server: " + newUsername + " left."
         conn.send(data.encode())
+        loginFlag = loginFlag - 1
+        break
 
+    ################################
+    ##        Login Function      ##
+    ################################
+    else:
+        print("Couldn't read input")
+        data = "Server: couldn't read input"
+        conn.send(data.encode())
+
+    ################################
+    ##       Socket Closes        ##
+    ################################
     if not data:
         break
 
-    else:
-        print("Failed to pattern match")
-        data = "Server: Failed to match menu word."
-        conn.send(data.encode())
 
+#######################
+# End of program when #
+## while loops fails ##
+#######################
+print("")
+print("Client " + str(conn) + "has disconnected!")
 conn.close()
