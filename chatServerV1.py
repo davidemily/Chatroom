@@ -95,8 +95,18 @@ while True:
         data = "Server: " + newUsername + " left."
         conn.send(data.encode())
         loginFlag = loginFlag - 1
-        break
 
+    ################################
+    ##        Quit Function       ##
+    ################################
+    elif(testWord == "quit"):
+        if(loginFlag==0):
+            print("Server: " + str(conn) + " has decided to quit!")
+            data = "Server: " + str(conn) + " has decided to quit!"
+        else:
+            data = "Server: " + newUsername + " has decided to quit!"
+        conn.send(data.encode())
+        break
     ################################
     ##        Login Function      ##
     ################################
@@ -119,3 +129,5 @@ while True:
 print("")
 print("Client " + str(conn) + "has disconnected!")
 conn.close()
+print("")
+print("Exiting server...")
