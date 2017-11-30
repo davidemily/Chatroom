@@ -66,4 +66,9 @@ while True:
     if not data:
         break
 
+    else:
+        print("Failed to pattern match")
+        data = "Server: Failed to match menu word."
+        conn.send(data.encode())
+
 conn.close()
