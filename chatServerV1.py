@@ -28,6 +28,10 @@ while True:
     if not data:
         break
 
+    ######################
+    ##  Login Function  ##
+    ######################
+
     if(data.split(" ")[0].lower == "login"):
         print("")
         newUsername = data.split(" ")[1]
@@ -40,7 +44,12 @@ while True:
                         print(newUsername + " login")
                         data = "Server: " + newUsername + " joins"
                         loginFlag = 1
+        f.close()
         conn.send(data.encode())
+
+    ######################
+    ##  Send  Function  ##
+    ######################
 
     if(data.split(" ")[0].lower == "send"):
         print("")
@@ -51,6 +60,18 @@ while True:
             print (newUsername + ": " + data[5:0])
         conn.send(data.encode())
 
-    if(data.split(" ")[0].lower() == "newuser"
+    #######################
+    ## New User Function ##
+    #######################
+
+    if(data.split(" ")[0].lower() == "newuser"):
+        print("")
+        createUsername = data.split(" ")[1]
+        createPassword = data.split(" ")[2]
+        f = open('login.txt', 'a')
+        f.write(createUsername + " " + createPassword +'\n')
+        f.close()
+        data = "New user " + createUsername + " created"
+        conn.send(data.encode())
 
 conn.close()

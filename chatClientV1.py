@@ -21,7 +21,7 @@ while connections == 0:
 print ("You're connected!")
 
 print("")
-print("Type 'login' to login")
+print("Type 'login username password' to login")
 print("Type 'newuser username password' to create a newuser")
 print("Type 'send' to send a message")
 print("Type 'logout' to logout")
@@ -29,7 +29,7 @@ print("Type 'menu' to print this menu again")
 print("")
 
 while (loginFlag == 0):
-    message = input(">>")
+    message = input(">> ")
     sock.send(message.encode())
     message = sock.recv(1024).decode()
     if "joins" in message:
@@ -38,7 +38,7 @@ while (loginFlag == 0):
     print(message)
 
 while(loginFlag == 1):
-    message = input(newUsername+">>")
+    message = input(newUsername+">> ")
     sock.send(message.encode())
     message = sock.recv(1024).decode()
     print(message)
