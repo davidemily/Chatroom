@@ -10,7 +10,7 @@ sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 port = 10528
 connections = 0
 loginFlag = 0
-
+print("")
 host = input("What is the host name? ")
 
 print ("")

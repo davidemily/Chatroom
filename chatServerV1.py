@@ -79,21 +79,24 @@ while True:
     ################################
     elif(testWord == "newuser"):
         print("Attempt to create new user...")
-        createUsername = data.split(" ")[1]
-        if len(createUsername)>=32:
-            data = "Username not long enough"
-        createPassword = data.split(" ")[2]
-        if len(createPassword)<4:
-            data = "Password not long enough"
-        elif len(createPassword)>8:
-            data = "Password too long"    
-        else:
-            f = open('login.txt', 'a')
-            f.write(createUsername + " " + createPassword +'\n')
-            f.close()
-            print("New user " + createUsername + " created")
-            data = "New user " + createUsername + " created"
-        conn.send(data.encode())
+        try:
+            createUsername = data.split(" ")[1]
+            createPassword = data.split(" ")[2]
+            if len(createUsername)<32 and len(createPassword)>3 and len(createPassword)<8:
+                f = open('login.txt', 'a')
+                f.write(createUsername + " " + createPassword +'\n')
+                f.close()
+                print("New user " + createUsername + " created")
+                data = "New user " + createUsername + " created"
+            else:
+                print("Problem creating new account")
+                data = "Did not follow requirements"
+        except:
+            print("Did not include enough arguements")
+            data = "Did not include enough arguments"
+
+        finally:
+            conn.send(data.encode())
 
     ################################
     ##       Logout Function      ##
