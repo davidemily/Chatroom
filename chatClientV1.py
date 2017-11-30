@@ -37,7 +37,7 @@ print("           username must be less than 32 characthers")
 print("           password must be between 4 & 8 characters")
 print("Type 'send' to send a message")
 print("Type 'logout' to logout")
-print("Type 'quit' to quit")
+print("Type 'quit' to shutdown service")
 print("")
 
 ## While loop to run the program

@@ -49,18 +49,22 @@ while True:
         if(loginFlag !=0):
             data = "Server: " + newUsername + " is already logged in!"
         else:
-            newUsername = data.split(" ")[1]
-            print("Client " + str(conn) + "has connected!")
-            newPassword = data.split(" ")[2]
-            data = "Login failed. Please check username and password."
-            with open("login.txt", "r") as f:
-                for line in f:
-                    if newUsername in line:
-                        if newPassword in line:
-                            print(newUsername + " login")
-                            data = "Server: " + newUsername + " joins"
-                            loginFlag = 1
-            f.close()
+            try:
+                newUsername = data.split(" ")[1]
+                newPassword = data.split(" ")[2]
+                print("Login Failed.")
+                data = "Login failed. Please check username and password."
+                with open("login.txt", "r") as f:
+                    for line in f:
+                        if newUsername in line:
+                            if newPassword in line:
+                                print(newUsername + " login")
+                                data = "Server: " + newUsername + " joins"
+                                loginFlag = 1
+            except:
+                data = "Login failed. Please check username and password."
+            finally:
+                f.close()
         conn.send(data.encode())
 
     ################################
@@ -104,10 +108,14 @@ while True:
     ##       Logout Function      ##
     ################################
     elif(testWord == "logout"):
-        print(newUsername + " logout")
-        data = "Server: " + newUsername + " left."
-        conn.send(data.encode())
-        loginFlag = loginFlag - 1
+        if(loginFlag == 0):
+            data = "You're not logged in"
+            conn.send(data.encode())
+        else:
+            print(newUsername + " logout")
+            data = "Server: " + newUsername + " left."
+            conn.send(data.encode())
+            loginFlag = loginFlag - 1
 
     ################################
     ##        Quit Function       ##
