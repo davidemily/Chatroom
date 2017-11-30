@@ -84,16 +84,18 @@ while True:
             createPassword = data.split(" ")[2]
             if len(createUsername)<32 and len(createPassword)>3 and len(createPassword)<8:
                 f = open('login.txt', 'a')
-                f.write(createUsername + " " + createPassword +'\n')
-                f.close()
-                print("New user " + createUsername + " created")
-                data = "New user " + createUsername + " created"
+                if createUsername not in f:
+                    f.write(createUsername + " " + createPassword +'\n')
+                    f.close()
+                    print("New user " + createUsername + " created")
+                    data = "New user " + createUsername + " created"
+
             else:
                 print("Problem creating new account")
                 data = "Did not follow requirements"
         except:
             print("Did not include enough arguements")
-            data = "Did not include enough arguments"
+            data = "Did not include enough arguments or account exists"
 
         finally:
             conn.send(data.encode())
@@ -119,7 +121,7 @@ while True:
         conn.send(data.encode())
         break
     ################################
-    ##        Login Function      ##
+    ##      Error   Function      ##
     ################################
     else:
         print("Couldn't read input")
