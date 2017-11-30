@@ -13,6 +13,7 @@ loginFlag = 0
 
 host = input("What is the host name? ")
 
+print ("")
 print ("Trying to connect to chat server...")
 while connections == 0:
     try:
@@ -32,6 +33,8 @@ print("#######################")
 print("")
 print("Type 'login username password' to login")
 print("Type 'newuser username password' to create a newuser")
+print("           username must be less than 32 characthers")
+print("           password must be between 4 & 8 characters")
 print("Type 'send' to send a message")
 print("Type 'logout' to logout")
 print("Type 'quit' to quit")
@@ -43,6 +46,7 @@ while(True):
         message = input(">> ")
         sock.send(message.encode()) # python3 defaults to UTF-8 encoding for socket
         message = sock.recv(1024).decode() # decoding what is received by the server
+
         ##########################
         ### checking for login ###
         ##########################

@@ -78,13 +78,21 @@ while True:
     ##       New User Function    ##
     ################################
     elif(testWord == "newuser"):
+        print("Attempt to create new user...")
         createUsername = data.split(" ")[1]
+        if len(createUsername)>=32:
+            data = "Username not long enough"
         createPassword = data.split(" ")[2]
-        f = open('login.txt', 'a')
-        f.write(createUsername + " " + createPassword +'\n')
-        f.close()
-        print("New user " + createUsername + " created")
-        data = "New user " + createUsername + " created"
+        if len(createPassword)<4:
+            data = "Password not long enough"
+        elif len(createPassword)>8:
+            data = "Password too long"    
+        else:
+            f = open('login.txt', 'a')
+            f.write(createUsername + " " + createPassword +'\n')
+            f.close()
+            print("New user " + createUsername + " created")
+            data = "New user " + createUsername + " created"
         conn.send(data.encode())
 
     ################################
@@ -131,3 +139,4 @@ print("Client " + str(conn) + "has disconnected!")
 conn.close()
 print("")
 print("Exiting server...")
+print("")
