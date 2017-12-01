@@ -1,3 +1,21 @@
+######################################################################
+## David Emily #######################################################
+## CS 4850 ###########################################################
+## Lab 3 #############################################################
+## Description: ######################################################
+## In this lab we created a server and client message application. ###
+## The program runs on Python's Socket and Sys libraries. ############
+## The server expects a socket request on a certain port. ############
+## When the client also requests the socket from the server, #########
+## a connection is made that can be used for sending data, ###########
+## in this case, messages. The server then echos the message #########
+## back to the client to show that the socket works both ways. #######
+## I implemented a very bare version of this room in order ###########
+## to complete the requirements of Lab 3 version 1 ###################
+## I've never used Python before but I chose the language due to #####
+## huge amount of resources available and the low learning curve #####
+######################################################################
+
 import socket
 import sys
 import time
